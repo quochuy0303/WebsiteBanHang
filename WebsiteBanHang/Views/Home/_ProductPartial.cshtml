@@ -1,0 +1,61 @@
+﻿@model WebsiteBanHang.ViewModels.HomeViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="panel panel-info panel-prod">
+    <div class="panel-heading panel-heading-prod"><i class="fa fa-spinner faspin"></i> @Model.CatCateProds.NameCat</div>
+    <div class="panel-body">
+        <div class="row">
+            @foreach (var item in Model.CatProds)
+            {
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="~/images/products/@item.Img1" class="img-rounded" alt="@item.NamePro">
+                        <div class="caption">
+                            <h4>@item.NamePro</h4>
+                            <p>Giá: @string.Format("{0:N0}", item.Price) VNĐ</p>
+                            <p>
+                                <a href="san-pham/@item.Link-@item.IdPro" class="btn
+btn-info" role="button"><i class="fa fa-rocket"></i> Chi tiết</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel-footer">
+        <p class="more-prod">
+            <a href="@Model.CatCateProds.Link-
+@Model.CatCateProds.IdCat">Xem thêm sản phẩm...</a>
+        </p>
+    </div>
+</div>
+<div class="panel panel-danger panel-prod">
+    <div class="panel-heading panel-heading-prod"><i class="fa fa-spinner faspin"></i> @Model.DogCateProds.NameCat</div>
+    <div class="panel-body">
+        <div class="row">
+            @foreach (var item in Model.DogProds)
+            {
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="~/images/products/@item.Img1" class="img-rounded" alt="@item.NamePro">
+                        <div class="caption">
+                            <h4>@item.NamePro</h4>
+                            <p>Giá: @string.Format("{0:N0}", item.Price) VNĐ</p><p>
+                                <a href="san-pham/@item.Link-@item.IdPro" class="btn
+btn-info" role="button"><i class="fa fa-rocket"></i> Chi tiết</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel-footer">
+        <p class="more-prod">
+            <a href="@Model.DogCateProds.Link-
+@Model.DogCateProds.IdCat">Xem thêm sản phẩm...</a>
+        </p>
+    </div>
+</div>

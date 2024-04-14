@@ -1,0 +1,52 @@
+﻿@model WebsiteBanHang.ViewModels.UserViewModel
+<div class="panel panel-primary">
+    <div class="panel-heading panel-heading-prod"><i class="fa fa-spinner faspin"></i> Thông tin người dùng</div>
+    <div class="panel-body">
+        <form class="form form-horizontal">
+            <div class="form-group">
+                <label class="col-md-3">Tên đăng nhập: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" asp-for="Register.Username" readonly />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">Họ và tên: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" asp-for="Register.Name" readonly />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">Địa chỉ: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" asp-for="Register.Address" readonly />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">Email: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" asp-for="Register.Email" readonly />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">Số điện thoại: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" asp-for="Register.Phone" readonly />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <button type="button" class="btn btn-primary" id="editButton">Sửa thông tin</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("editButton").addEventListener("click", function () {
+        var inputs = document.querySelectorAll("input");
+        inputs.forEach(function (input) {
+            input.removeAttribute("readonly");
+        });
+    });
+</script>

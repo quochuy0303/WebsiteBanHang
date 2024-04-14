@@ -1,0 +1,35 @@
+﻿@model WebsiteBanHang.ViewModels.ProductViewModel
+<div class="panel panel-primary">
+    <div class="panel-heading panel-heading-prod"><i class="fa fa-spinner faspin"></i> Tất cả sản phẩm</div>
+    <div class="panel-body">
+        <div class="row">
+            @foreach (var item in Model.Prods)
+            {
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="~/images/products/@item.Img1" class="img-rounded"
+                             alt="@item.NamePro">
+                        <div class="caption">
+                            <h4>@item.NamePro</h4>
+                            <p>Giá: @string.Format("{0:N0}", item.Price) VNĐ</p>
+                            <p>
+                                <a href="san-pham/@item.Link-@item.IdPro" class="btn
+btn-info" role="button"><i class="fa fa-rocket"></i> Chi tiết</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel-footer text-center">
+        <ul class="pagination pagination-centered">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="@(i == Model.CurrentPage ? "active" : "")">
+                    <a href="?page=@i">@i</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

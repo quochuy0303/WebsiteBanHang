@@ -1,0 +1,53 @@
+﻿@model WebsiteBanHang.ViewModels.HomeViewModel
+@{
+ var _count = 0;
+ foreach (var item in Model.Sliders) _count++;
+}
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+ <ol class="carousel-indicators">
+ <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+ @{
+            for (int i = 1; i < _count; i++)
+            {
+                <li data-target="#myCarousel" data-slide-to="@i"></li>
+            }
+        }
+    </ol>
+    <div class="carousel-inner">
+        @{
+            var item_active = 0;
+            foreach (var item in Model.Sliders)
+            {
+                if (item_active == 0)
+                {
+                    item_active = 1;
+                    <div class="item active">
+                        <img src="~/images/sliders/@item.Img" alt="@item.Title">
+                        <div class="carousel-caption">
+                            <h3 style="color:#ff0000">@item.Title</h3>
+                            <p style="color:#0026ff"><a href="chuong-trinh/@item.Link">Xem thêm...</a></p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        <img src="~/images/sliders/@item.Img" alt="@item.Title">
+                        <div class="carousel-caption">
+                            <h3 style="color:#ff0000">@item.Title</h3>
+                            <p style="color:#0026ff"><a href="chuong-trinh/@item.Link">Xem thêm...</a></p>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>

@@ -1,0 +1,86 @@
+﻿@model WebsiteBanHang.ViewModels.ProductViewModel
+@foreach (var item in Model.Prods)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <img id="mainImage" src="~/images/products/@item.Img1" alt="Main
+Image" class="img-responsive main-image">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 ">
+                    <img src="~/images/products/@item.Img2" alt="Thumbnail 1"
+                         class="img-responsive thumbnail" onclick="changeImage(this)">
+                </div>
+                <div class="col-md-6">
+                    <img src="~/images/products/@item.Img3" alt="Thumbnail 2"
+                         class="img-responsive thumbnail" onclick="changeImage(this)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>@item.NamePro</h2>
+            <h4>
+                Giá gốc: <strike style="color:red;">
+                    @string.Format("{0:N0}",
+                             (float)item.Price * 1.5) VNĐ
+                </strike>
+            </h4>
+            <h4>
+                Giá giảm sốc: <i style="font-weight: bold; color:
+green;">@string.Format("{0:N0}", (float)item.Price) VNĐ</i>
+            </h4>
+            <h4>Các lựa chọn hiện có :</h4>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Kích cỡ:</label>
+                    <div class="col-md-8">
+                        <select class="form-control">
+                            <option>L</option>
+                            <option>XL</option>
+                            <option>S</option>
+                            <option>M</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Màu:</label>
+                    <div class="col-md-8">
+                        <select class="form-control">
+                            <option>Đỏ</option>
+                            <option>Cam</option>
+                            <option>Vàng</option>
+                            <option>Xanh lá</option>
+                            <option>Xanh dương</option>
+                            <option>Hồng</option>
+                            <option>Tím</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <button type="button" class="btn btn-danger"><i class="fa faspin fa-spinner"></i> Mua ngay</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <h4>Thông tin sản phẩm:</h4>
+        <p style="text-align: justify">
+            @Html.Raw(item.Detail)
+        </p>
+    </div>
+}
+@section scripts {
+    <script>
+        function changeImage(img) {
+            var mainImage = document.getElementById('mainImage');
+            var tempSrc = mainImage.src;
+            mainImage.src = img.src;
+            img.src = tempSrc;
+        }
+    </script>
+}

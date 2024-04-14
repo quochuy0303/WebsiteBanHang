@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PET'S STORE</title>
+    <meta name="keywords" content="your_keyworks" />
+    <meta name="description" content="Website Dành Cho Chó Mèo - PET'S STORE" />
+    <meta name="copyright" content="PET'S STORE" />
+    <meta name="author" content="PET'S STORE" />
+    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/vendor/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="row" style="display:flex; align-items: center;">
+                <lord-icon src="https://cdn.lordicon.com/qeltvbrs.json"
+                           trigger="hover"
+                           style="width:100px;height:100px; margin-right:10px;">
+                </lord-icon>
+                <a href="trang-chu"><img src="~/images/banner-1.png" alt="PET'S STORE"></a>
+                
+            </div>
+            <div class="container">
+                @await Html.PartialAsync("_MenuPartial")
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="container">
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+            <div class="col-md-3">
+                @await Html.PartialAsync("_BlogPartial")
+                <div class="panel panel-success panel-post">
+                    <div class="panel-heading panel-heading-prod"><i class="fa fa-paperplane"></i> Quảng cáo</div>
+                    <div class="panel-body panel-body-post">
+                        <img src="~/images/products/3152_chic_cham_dau_tam_cam_petcity.png"
+                             class="img-rounded img-adv" alt="Quảng cáo" />
+                        <marquee>
+                            Hãy luôn chăm sóc tốt nhất cho cục cưng của bạn bằng cách tắm
+                            chúng với sữa tắm dành riêng cho chó - mèo đạt chuẩn an toàn!
+                        </marquee>
+                    </div>
+                </div>
+                <div class="youtube">
+                    <iframe width="110%" height="300"
+                            src="https://www.youtube.com/embed/YV07A50O8g4?si=rL-wjRdamiOMcZ56" title="YouTube
+video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.4206985418705!2d106.78
+253487570396!3d10.855572157727538!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x
+3175276e7ea103df%3A0xb6cf10bb7d719327!2zSFVURUNIIC0gxJDhuqFpIGjhu41jIEPDtG5nIG5naOG7hy
+BUUC5IQ00gKFRodSBEdWMgQ2FtcHVzKQ!5e0!3m2!1svi!2s!4v1710172843840!5m2!1svi!2s"
+                            width="110%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container container-footer">
+            <div class="col-md-8">
+                <h4>PET'S STORE - Cửa hàng dành cho thú cưng</h4>
+                <p>
+                    Địa chỉ: HUTECH Thuduc Campus - Khu CNC, Phường Hiệp Phú, Tp. Thử Đức,
+                    Tp. Hồ chí Minh
+                </p>
+                <p>
+                    SĐT: <a class="info" href="tel:0868895261">086.8895.261</a> (Phước
+                    Nguyễn)
+                </p>
+                <p>
+                    Email: <a class="info" href="mailto:
+12345@gmail.com">12345@gmail.com</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="~/images/banner-1.png" alt="logo" />
+                <p></p>
+                <p>Số lượng truy cập hiện tại: 100</p>
+            </div>
+        </div>
+    </div>
+    <div id="modalSignup" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Đăng ký</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username"
+                                   placeholder="Nhập username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fullname">Họ tên:</label>
+                            <input type="text" class="form-control" id="fullname"
+                                   placeholder="Nhập họ tên" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa chỉ:</label>
+                            <input type="text" class="form-control" id="address"
+                                   placeholder="Nhập địa chỉ">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại:</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="Nhập
+số điện thoại">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email"
+                                   placeholder="Nhập email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="password"
+                                   placeholder="Nhập mật khẩu" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Nhập lại mật khẩu:</label>
+                            <input type="password" class="form-control" id="confirmPassword"
+                                   placeholder="Nhập lại mật khẩu" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modalLogin" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Đăng nhập</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username"
+                                   placeholder="Nhập username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="password"
+                                   placeholder="Nhập mật khẩu" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

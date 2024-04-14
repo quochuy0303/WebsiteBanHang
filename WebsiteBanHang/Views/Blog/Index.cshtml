@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel panel-primary">
+    <div class="panel-heading panel-heading-prod">
+        <i class="fa fa-info-circle"></i>
+        Thông tin Bài viết
+    </div>
+    <div class="panel-body panel-body-post">
+        @foreach (var item in Model.Blogs)
+        {
+            <h4><a href="/bai-viet/@($"{item.Link}-{item.IdBlog}")">@item.Title</a></h4>
+            <p>@item.Description</p>
+        }
+    </div>
+</div>
+
