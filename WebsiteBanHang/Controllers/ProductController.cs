@@ -23,6 +23,10 @@ namespace WebsiteBanHang.Controllers
 
         public async Task<IActionResult> Index(int page = 1, int pageSize = 6)
         {
+            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m =>
+            m.Order).ToListAsync();
+            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m =>
+            m.Order).Take(2).ToListAsync();
             // Tính chỉ số bắt đầu và số lượng sản phẩm cần lấy
             int startIndex = (page - 1) * pageSize;
             var prods = await _context.Products

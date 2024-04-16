@@ -26,11 +26,11 @@
                     string permission = User.FindFirst(ClaimTypes.Role)?.Value;
                     if (permission == "1")
                     {
-                        <li><a href="quan-tri"><span class="glyphicon glyphiconcog"></span></a></li>
+                        <li><a href="quan-tri"><span class="glyphicon glyphicon-cog"></span></a></li>
                     }
                     else
                     {
-                        <li><a href="gio-hang"><span class="glyphicon glyphicon-shoppingcart"></span></a></li>
+                        <li><a href="gio-hang"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                     }
                     <li>
                         <a href="thong-tin">
@@ -38,7 +38,7 @@
                             @username
                         </a>
                     </li>
-                    <li><a href="dang-xuat"><span class="glyphicon glyphicon-logout"></span></a></li>
+                    <li><a href="dang-xuat"><span class="glyphicon glyphicon-log-out"></span></a></li>
                 }
                 else
                 {
