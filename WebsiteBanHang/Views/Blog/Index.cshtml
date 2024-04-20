@@ -11,7 +11,7 @@
         @foreach (var item in Model.Blogs)
         {
             <h4><a href="/bai-viet/@($"{item.Link}-{item.IdBlog}")">@item.Title</a></h4>
-            <p>@item.Description</p>
+            <p>@item.Detail</p>
         }
     </div>
 </div>

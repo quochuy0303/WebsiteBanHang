@@ -23,23 +23,26 @@ namespace WebsiteBanHang.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 6)
+        public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 6)
         {
-            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).ToListAsync();
-            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).Take(2).ToListAsync();
-            // Tính chỉ số bắt đầu và số lượng sản phẩm cần lấy
+            // Lấy dữ liệu menu và blog
+            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m => m.Order).ToListAsync();
+            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m => m.Order).Take(2).ToListAsync();
+
+            // Lấy danh sách sản phẩm dựa trên từ khóa tìm kiếm (nếu có)
+            IQueryable<Product> query = _context.Products.Where(m => m.Hide == 0);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(m => m.NamePro.Contains(searchString));
+            }
+
+            // Sắp xếp, phân trang và lấy dữ liệu sản phẩm
             int startIndex = (page - 1) * pageSize;
-            var prods = await _context.Products
-                .Where(m => m.Hide == 0)
-                .OrderBy(m => m.Order)
-                .Skip(startIndex)
-                .Take(pageSize)
-                .ToListAsync();
+            var prods = await query.OrderBy(m => m.Order).Skip(startIndex).Take(pageSize).ToListAsync();
 
             // Tính tổng số trang dựa trên số lượng sản phẩm và pageSize
-            int totalItems = await _context.Products.Where(m => m.Hide == 0).CountAsync();
+            int totalItems = await query.CountAsync();
             int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
             var viewModel = new ProductViewModel
@@ -53,6 +56,7 @@ namespace WebsiteBanHang.Controllers
 
             return View(viewModel);
         }
+
 
 
         public async Task<IActionResult> _MenuPartial()
@@ -189,7 +193,7 @@ namespace WebsiteBanHang.Controllers
             return View(updatedProduct);
         }
 
-        // Action hiển thị form xác nhận xóa sản phẩm
+        // Action hiển thị form xác nhận xóa sản phẩm   
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
