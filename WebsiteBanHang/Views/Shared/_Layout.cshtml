@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/vendor/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 <body>
@@ -22,8 +23,9 @@
                            trigger="hover"
                            style="width:100px;height:100px; margin-right:10px;">
                 </lord-icon>
-                <a href="trang-chu"><img src="~/images/banner-1.png" alt="PET'S STORE"></a>
-                
+                <a href="trang-chu"><img src="~/images/banner-1.png" alt="PET'S STORE" class="small-banner-image"></a> 
+                    <input type="search" class="form-control" placeholder="Tìm Kiếm..." aria-label="Tìm Kiếm" aria-describedby="basic-addon2">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>                  
             </div>
             <div class="container">
                 @await Html.PartialAsync("_MenuPartial")
@@ -49,10 +51,7 @@
                     </div>
                 </div>
                 <div class="youtube">
-                    <iframe width="110%" height="300"
-                            src="https://www.youtube.com/embed/YV07A50O8g4?si=rL-wjRdamiOMcZ56" title="YouTube
-video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
-encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="110%" height="300" src="https://www.youtube.com/embed/WPiOIPMMkWg?si=7lVVVAUl3Y2vB35u" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <div class="map">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.4206985418705!2d106.78
@@ -68,24 +67,21 @@ BUUC5IQ00gKFRodSBEdWMgQ2FtcHVzKQ!5e0!3m2!1svi!2s!4v1710172843840!5m2!1svi!2s"
     <div class="footer">
         <div class="container container-footer">
             <div class="col-md-8">
-                <h4>PET'S STORE - Cửa hàng dành cho thú cưng</h4>
+                <h4>HCV Mobile - Web Kinh Doanh Điện Thoại</h4>
                 <p>
                     Địa chỉ: HUTECH Thuduc Campus - Khu CNC, Phường Hiệp Phú, Tp. Thử Đức,
                     Tp. Hồ chí Minh
                 </p>
                 <p>
-                    SĐT: <a class="info" href="tel:0868895261">086.8895.261</a> (Phước
-                    Nguyễn)
+                    SĐT: <a class="info" href="tel:0355577718">035.5577.718</a> (HCD)
                 </p>
                 <p>
                     Email: <a class="info" href="mailto:
-12345@gmail.com">12345@gmail.com</a>
+HCD@gmail.com">HCD@gmail.com</a>
                 </p>
             </div>
             <div class="col-md-4">
-                <img src="~/images/banner-1.png" alt="logo" />
-                <p></p>
-                <p>Số lượng truy cập hiện tại: 100</p>
+                
             </div>
         </div>
     </div>

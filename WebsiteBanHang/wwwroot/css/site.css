@@ -102,3 +102,11 @@
 .thumbnail {
     cursor: pointer;
 }
+
+.small-banner-image {
+    width: auto;
+    height: 70px;
+    margin-right: 20px;
+    margin-left: 30px;
+    float: left;
+}
