@@ -1,0 +1,81 @@
+﻿@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Update Product";
+}
+
+<h1>Update Product</h1>
+
+<form asp-action="Update" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="IdPro" />
+
+    <div class="form-group">
+        <label asp-for="NamePro">Product Name</label>
+        <input asp-for="NamePro" class="form-control" />
+        <span asp-validation-for="NamePro" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Nums">Quantity</label>
+        <input asp-for="Nums" class="form-control" />
+        <span asp-validation-for="Nums" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Detail">Properties</label>
+        <input asp-for="Detail" class="form-control" />
+        <span asp-validation-for="Detail" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Img1">Image 1</label>
+        <input asp-for="Img1" class="form-control" />
+        <span asp-validation-for="Img1" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Img2">Image 2</label>
+        <input asp-for="Img2" class="form-control" />
+        <span asp-validation-for="Img2" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Img3">Image 3</label>
+        <input asp-for="Img3" class="form-control" />
+        <span asp-validation-for="Img3" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Order">Order</label>
+        <input asp-for="Order" class="form-control" />
+        <span asp-validation-for="Order" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Link">Link</label>
+        <input asp-for="Link" class="form-control" />
+        <span asp-validation-for="Link" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Hide">Hide</label>
+        <select asp-for="Hide" class="form-control">
+            <option value="0">Visible</option>
+            <option value="1">Hidden</option>
+        </select>
+        <span asp-validation-for="Hide" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IdCat">Category</label>
+        <select asp-for="IdCat" asp-items="ViewBag.Categories" class="form-control"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Product</button>
+</form>

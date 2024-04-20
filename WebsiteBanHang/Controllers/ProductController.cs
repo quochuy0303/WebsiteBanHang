@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Interface;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repository;
 using WebsiteBanHang.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebsiteBanHang.Controllers
 {
@@ -42,6 +44,8 @@ namespace WebsiteBanHang.Controllers
 
             var viewModel = new ProductViewModel
             {
+                Menus = menus,
+                Blogs = blogs,
                 Prods = prods,
                 TotalPages = totalPages,
                 CurrentPage = page
@@ -117,6 +121,8 @@ namespace WebsiteBanHang.Controllers
         // GET: /Product/Add
         public async Task<IActionResult> Add()
         {
+            // Kiểm tra xem tài khoản có claim "Permission" không
+
             var categories = await _categoryRepository.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "IdCat", "NameCat");
             return View();
@@ -137,6 +143,70 @@ namespace WebsiteBanHang.Controllers
             var categories = await _categoryRepository.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "IdCat", "NameCat");
             return View(product);
+        }
+
+        // GET: /Product/Update/1
+        public async Task<IActionResult> Update(int id)
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound(); // Trả về trang 404 nếu không tìm thấy sản phẩm
+            }
+
+            var categories = await _categoryRepository.GetAllAsync();
+            ViewBag.Categories = new SelectList(categories, "IdCat", "NameCat");
+
+            return View(product);
+        }
+
+        // POST: /Product/Update/1
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, Product updatedProduct)
+        {
+            if (id != updatedProduct.IdPro)
+            {
+                return NotFound(); // Trả về trang 404 nếu id không khớp
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _productRepository.UpdateAsync(updatedProduct);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    // Xử lý ngoại lệ khi xảy ra lỗi trong quá trình cập nhật
+                    return RedirectToAction(nameof(Error));
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            var categories = await _categoryRepository.GetAllAsync();
+            ViewBag.Categories = new SelectList(categories, "IdCat", "NameCat");
+
+            return View(updatedProduct);
+        }
+
+        // Action hiển thị form xác nhận xóa sản phẩm
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        // Action xác nhận xóa sản phẩm
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _productRepository.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
 
 

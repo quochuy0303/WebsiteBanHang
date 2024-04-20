@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Interface;
@@ -10,10 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
 AddCookie(options =>
 {
-    options.Cookie.Name = "PetStoreCookie";
+    options.Cookie.Name = "PhoneCookie";
     options.LoginPath = "/User/Login";
 });
 
@@ -22,8 +23,13 @@ builder.Configuration.GetConnectionString("WebsiteBanHangConnection");
 builder.Services.AddDbContext<WebsiteBanHangContext>(options =>
 options.UseSqlServer(connectionString));
 
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CatologyRepository>();
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
