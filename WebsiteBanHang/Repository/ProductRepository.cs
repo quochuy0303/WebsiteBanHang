@@ -35,5 +35,6 @@ namespace WebsiteBanHang.Repository
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
         }
+
     }
 }

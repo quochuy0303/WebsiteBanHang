@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System;
 using WebsiteBanHang.Interface;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repository;
@@ -15,6 +17,7 @@ namespace WebsiteBanHang.Controllers
         private readonly WebsiteBanHangContext _context;
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
+        
         public ProductController(WebsiteBanHangContext context ,IProductRepository productRepository,
         ICategoryRepository categoryRepository)
         {
@@ -125,11 +128,20 @@ namespace WebsiteBanHang.Controllers
         // GET: /Product/Add
         public async Task<IActionResult> Add()
         {
-            // Kiểm tra xem tài khoản có claim "Permission" không
+            if (User.Identity.IsAuthenticated)
+            {
+                string permission = User.FindFirst(ClaimTypes.Role)?.Value;
+                if (permission == "1")
+                {
+                    // Người dùng có quyền "1", cho phép truy cập vào action Add
+                    var categories = await _categoryRepository.GetAllAsync();
+                    ViewBag.Categories = new SelectList(categories, "IdCat", "NameCat");
+                    return View();
+                }
+            }
 
-            var categories = await _categoryRepository.GetAllAsync();
-            ViewBag.Categories = new SelectList(categories, "IdCat", "NameCat");
-            return View();
+            // Người dùng không có quyền hoặc chưa xác thực, hiển thị view thông báo không có quyền truy cập
+            return View("AccessDenied");
         }
 
         // POST: /Product/Add
@@ -156,6 +168,13 @@ namespace WebsiteBanHang.Controllers
             if (product == null)
             {
                 return NotFound(); // Trả về trang 404 nếu không tìm thấy sản phẩm
+            }
+
+            // Kiểm tra quyền của người dùng
+            string permission = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (permission != "1") // Kiểm tra xem người dùng có quyền "1" không
+            {
+                return View("AccessDenied"); // Hiển thị trang thông báo không có quyền truy cập
             }
 
             var categories = await _categoryRepository.GetAllAsync();
@@ -201,6 +220,14 @@ namespace WebsiteBanHang.Controllers
             {
                 return NotFound();
             }
+
+            // Kiểm tra quyền của người dùng
+            string permission = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (permission != "1") // Kiểm tra xem người dùng có quyền "1" không
+            {
+                return View("AccessDenied"); // Hiển thị trang thông báo không có quyền truy cập
+            }
+
             return View(product);
         }
 
@@ -212,7 +239,5 @@ namespace WebsiteBanHang.Controllers
             await _productRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }

@@ -18,6 +18,8 @@ AddCookie(options =>
     options.LoginPath = "/User/Login";
 });
 
+builder.Services.AddSession();
+
 var connectionString =
 builder.Configuration.GetConnectionString("WebsiteBanHangConnection");
 builder.Services.AddDbContext<WebsiteBanHangContext>(options =>
@@ -43,11 +45,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
 app.UseRouting();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
@@ -88,6 +93,16 @@ defaults: new { controller = "User", action = "Info" });
 name: "dang-xuat",
 pattern: "dang-xuat",
 defaults: new { controller = "User", action = "Logout" });
+
+    endpoints.MapControllerRoute(
+ name: "gio-hang",
+ pattern: "gio-hang",
+ defaults: new { controller = "Cart", action = "Index" });
+
+    endpoints.MapControllerRoute(
+ name: "them-gio-hang",
+ pattern: "them-gio-hang",
+ defaults: new { controller = "Cart", action = "AddItem" });
 
     endpoints.MapControllerRoute(
 name: "the-loai-san-pham",

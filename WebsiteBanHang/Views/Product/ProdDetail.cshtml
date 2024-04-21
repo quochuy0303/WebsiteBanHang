@@ -33,18 +33,7 @@ Image" class="img-responsive main-image">
 green;">@string.Format("{0:N0}", (float)item.Price) VNĐ</i>
             </h4>
             <h4>Các lựa chọn hiện có :</h4>
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Kích cỡ:</label>
-                    <div class="col-md-8">
-                        <select class="form-control">
-                            <option>L</option>
-                            <option>XL</option>
-                            <option>S</option>
-                            <option>M</option>
-                        </select>
-                    </div>
-                </div>
+            <form class="form-horizontal">              
                 <div class="form-group">
                     <label class="col-md-4 control-label">Màu:</label>
                     <div class="col-md-8">
@@ -61,7 +50,10 @@ green;">@string.Format("{0:N0}", (float)item.Price) VNĐ</i>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
-                        <button type="button" class="btn btn-danger"><i class="fa faspin fa-spinner"></i> Mua ngay</button>
+                        <a class="btn btn-danger" href="/them-gio-hang?ProductId=@item.IdPro&Quantity=1">
+                            <i class="fa fa-spin fa-spinner"></i> Mua
+                            ngay
+                        </a>
                     </div>
                 </div>
             </form>
