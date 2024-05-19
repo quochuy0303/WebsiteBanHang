@@ -2,16 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebsiteBanHang.Models;
+using WebsiteBanHang.Services;
 using WebsiteBanHang.ViewModels;
 namespace WebsiteBanHang.Controllers
 {
     public class CartController : Controller
     {
         private readonly WebsiteBanHangContext _context;
+        private readonly IVnpayService _vnpayService;
         private const string CartSession = "CartSession";
-        public CartController(WebsiteBanHangContext context)
+        public CartController(WebsiteBanHangContext context , IVnpayService vnpayService)
         {
             _context = context;
+            _vnpayService = vnpayService;
         }
         public async Task<IActionResult> Index()
         {
@@ -134,6 +137,39 @@ namespace WebsiteBanHang.Controllers
                 // Return JSON response indicating failure with error message
                 return Json(new { status = false, message = "Error processing payment: " + ex.Message });
             }
+        }
+        [HttpPost]
+        public IActionResult VnPayPayment()
+        {
+            try
+            {
+                // Tạo yêu cầu thanh toán VnPay
+                var vnPayModel = new VnPaymentRequestModel
+                {
+                    Amount = Cart.Sum(p => p.ThanhTien), // Tính tổng số tiền của giỏ hàng
+                    CreatedDate = DateTime.Now,
+                    Description = "Thanh toán đơn hàng", // Mô tả đơn hàng
+                    FullName = "", // Thông tin người mua hàng
+                    OrderId = new Random().Next(1000, 100000) // Mã đơn hàng duy nhất
+                };
+
+                // Gọi dịch vụ để tạo URL thanh toán từ VnPay
+                var paymentUrl = _vnPayservice.CreatePaymentUrl(HttpContext, vnPayModel);
+
+                // Trả về URL thanh toán dưới dạng Redirect
+                return Redirect(paymentUrl);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý nếu có lỗi xảy ra
+                TempData["Message"] = "Lỗi khi tạo URL thanh toán VNPay: " + ex.Message;
+                return RedirectToAction("PaymentFail");
+            }
+        }
+
+        public IActionResult PaymentCallBack()
+        {
+            return View();
         }
 
     }

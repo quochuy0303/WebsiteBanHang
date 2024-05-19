@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Interface;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repository;
+using WebsiteBanHang.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,7 @@ builder.Services.AddScoped<ICategoryRepository, CatologyRepository>();
 
 
 
-
+builder.Services.AddSingleton<IVnpayService, VnPayService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
