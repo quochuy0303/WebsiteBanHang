@@ -35,6 +35,29 @@ var cart = {
             });
         });
 
+        $(document).ready(function () {
+            $('#btnVnPayPayment').click(function () {
+                // Gọi action "VnPayPayment" trên controller khi click vào nút "Thanh toán VnPay"
+                $.ajax({
+                    url: '/Cart/VnPayPayment',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status) {
+                            // Nếu lấy được URL thanh toán từ server, chuyển hướng tới trang thanh toán VnPay
+                            window.location.href = response.paymentUrl;
+                        } else {
+                            // Hiển thị thông báo lỗi nếu có lỗi xảy ra
+                            alert('Lỗi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi khi gửi yêu cầu Ajax
+                        alert('Lỗi khi gửi yêu cầu thanh toán VnPay.');
+                    }
+                });
+            });
+        });
 
         $('#btnDeleteAll').off('click').on('click', function () {
             $.ajax({

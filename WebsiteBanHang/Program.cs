@@ -5,7 +5,10 @@ using WebsiteBanHang.Interface;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repository;
 using WebsiteBanHang.Services;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a1e4bbd70492c8f59afe5690fb62d3770da0b90
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +35,7 @@ builder.Services.AddScoped<ICategoryRepository, CatologyRepository>();
 builder.Services.AddSingleton<IVnPayService, VnPayService>();
 
 
-
+builder.Services.AddSingleton<IVnpayService, VnPayService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
