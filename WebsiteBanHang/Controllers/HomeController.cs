@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebsiteBanHang.Models;
@@ -10,9 +10,10 @@ namespace WebsiteBanHang.Controllers
     public class HomeController : Controller
     {
         private readonly WebsiteBanHangContext _context;
+        
         public HomeController(WebsiteBanHangContext context)
         {
-            _context = context;
+            _context = context;           
         }
 
         public async Task<IActionResult> Index()
@@ -41,6 +42,7 @@ m.Order).ToListAsync();
             };
             return View(viewModel);
         }
+        
         public async Task<IActionResult> _BlogPartial()
         {
             return PartialView();
@@ -58,14 +60,6 @@ m.Order).ToListAsync();
         public async Task<IActionResult> _ProductPartial()
         {
             return PartialView();
-        }
-
-        
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        }     
     }
 }

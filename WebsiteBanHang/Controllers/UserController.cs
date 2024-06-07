@@ -15,13 +15,12 @@ namespace WebsiteBanHang.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).ToListAsync();
-            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).Take(2).ToListAsync();
+            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m => m.Order).ToListAsync();
+            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m => m.Order).Take(2).ToListAsync();
             var viewModel = new UserViewModel
             {
                 Menus = menus,
@@ -29,14 +28,13 @@ namespace WebsiteBanHang.Controllers
             };
             return View(viewModel);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserViewModel model)
         {
-            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).ToListAsync();
-            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).Take(2).ToListAsync();
+            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m => m.Order).ToListAsync();
+            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m => m.Order).Take(2).ToListAsync();
             var viewModel = new UserViewModel
             {
                 Menus = menus,
@@ -45,14 +43,13 @@ namespace WebsiteBanHang.Controllers
             };
             if (model.Register != null)
             {
-                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username ==
-                model.Register.Username);
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == model.Register.Username);
                 if (existingUser != null)
                 {
                     ViewBag.ErrorMessage = "Tên đăng nhập đã tồn tại.";
                     return View(viewModel);
                 }
-                model.Register.Password =BCrypt.Net.BCrypt.HashPassword(model.Register.Password);
+                model.Register.Password = BCrypt.Net.BCrypt.HashPassword(model.Register.Password);
                 model.Register.Permission = 0;
                 model.Register.Hide = 0;
                 _context.Users.Add(model.Register);
@@ -61,22 +58,12 @@ namespace WebsiteBanHang.Controllers
             }
             return View(viewModel);
         }
-        public async Task<IActionResult> _MenuPartial()
-        {
-            return PartialView();
-        }
-        public async Task<IActionResult> _BlogPartial()
-        {
-            return PartialView();
-        }
 
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).ToListAsync();
-            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).Take(2).ToListAsync();
+            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m => m.Order).ToListAsync();
+            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m => m.Order).Take(2).ToListAsync();
             var viewModel = new UserViewModel
             {
                 Menus = menus,
@@ -89,10 +76,8 @@ namespace WebsiteBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserViewModel model)
         {
-            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).ToListAsync();
-            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).Take(2).ToListAsync();
+            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m => m.Order).ToListAsync();
+            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m => m.Order).Take(2).ToListAsync();
             var viewModel = new UserViewModel
             {
                 Menus = menus,
@@ -101,25 +86,18 @@ namespace WebsiteBanHang.Controllers
             };
             if (model.Register != null)
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Username ==
-                model.Register.Username);
-                if (user != null && BCrypt.Net.BCrypt.Verify(model.Register.Password,
-                user.Password))
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == model.Register.Username);
+                if (user != null && BCrypt.Net.BCrypt.Verify(model.Register.Password, user.Password))
                 {
                     var claims = new List<Claim>
-{
-new Claim(ClaimTypes.Name, user.Username),
-new Claim(ClaimTypes.Role, user.Permission.ToString()),
-};
-                    var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties
                     {
+                        new Claim(ClaimTypes.Name, user.Username),
+                        new Claim("CustomerID", user.IdUsers.ToString()), // Thêm CustomerID vào claims
+                        new Claim(ClaimTypes.Role, user.Permission.ToString()),
                     };
-                    await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties { };
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -133,18 +111,15 @@ new Claim(ClaimTypes.Role, user.Permission.ToString()),
 
         public async Task<IActionResult> Info()
         {
-            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).ToListAsync();
-            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m =>
-            m.Order).Take(2).ToListAsync();
+            var menus = await _context.Menus.Where(m => m.Hide == 0).OrderBy(m => m.Order).ToListAsync();
+            var blogs = await _context.Blogs.Where(m => m.Hide == 0).OrderBy(m => m.Order).Take(2).ToListAsync();
             var users = new User();
             if (User.Identity.IsAuthenticated)
             {
                 string username = User.Identity.Name;
                 if (username != null)
                 {
-                    users = await _context.Users.FirstOrDefaultAsync(m => m.Username ==
-                    username);
+                    users = await _context.Users.FirstOrDefaultAsync(m => m.Username == username);
                 }
             }
             var viewModel = new UserViewModel
@@ -162,5 +137,4 @@ new Claim(ClaimTypes.Role, user.Permission.ToString()),
             return RedirectToAction("Index", "Home");
         }
     }
-
 }

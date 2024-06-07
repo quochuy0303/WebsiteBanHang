@@ -1,10 +1,11 @@
 ﻿@model WebsiteBanHang.ViewModels.CartViewModel
+
 <div class="panel panel-primary">
- <div class="panel-heading">Giỏ hàng của bạn</div>
- <div class="panel-body">
- @if (Model.CartItems.Count > 0)
- {
- <table class="table table-bordered">
+    <div class="panel-heading">Giỏ hàng của bạn</div>
+    <div class="panel-body">
+        @if (Model.CartItems.Count > 0)
+        {
+            <table class="table table-bordered">
                 <thead>
                     <tr style="text-align:center;font-weight:bold">
                         <td>Mã SP</td>
@@ -23,45 +24,90 @@
                             <td style="text-align:center;">@item.Product.IdPro</td>
                             <td>@item.Product.NamePro</td>
                             <td>
-                                <img src="~/images/products/@item.Product.Img1"
-                                     width="100" />
+                                <img src="~/images/products/@item.Product.Img1" width="100" />
                             </td>
                             <td>
-                                <!-- Input số lượng -->
-                                <input type="number" class="txtQuantity" data-id="@item.Product.IdPro" value="@item.Quantity" />
+                                <input type="number" class="txtQuantity" data-id="@item.Product.IdPro" value="@item.Quantity" min="1" />
                             </td>
                             <td style="text-align:center;">
-                                @String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"),
-                                         "{0:c}", item.Product.Price.GetValueOrDefault(0))
+                                @String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:c}", item.Product.Price.GetValueOrDefault(0))
                             </td>
                             <td style="text-align:center;">
-                                @String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"),
-                                         "{0:c}", item.Product.Price.GetValueOrDefault(0) * item.Quantity)
+                                @String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:c}", item.Product.Price.GetValueOrDefault(0) * item.Quantity)
                             </td>
                             <td><a href="#" data-id="@item.Product.IdPro" class="btn-delete">Xoá</a></td>
                         </tr>
                     }
                 </tbody>
             </table>
-            <button id="btnContinue" class="btn btn-primary">
-                Tiếp tục mua
-                hàng
-            </button>
+            <button id="btnContinue" class="btn btn-primary">Tiếp tục mua hàng</button>
             <button id="btnDeleteAll" class="btn btn-danger">Xoá giỏ hàng</button>
             <button id="btnPayment" class="btn btn-success">Thanh toán</button>
+            <form asp-action="Payment" method="post">
+                <button type="submit" class="btn btn-success">Thanh toán với VNPAY</button>
+            </form>
+
         }
         else
         {
-            <div style="margin-top:10px;margin-bottom:10px;margin-left:auto; marginright:auto">
-                <span class="alert alert-danger">
-                    Bạn chưa có sản phẩm nào trong giỏ
-                    hàng
-                </span>
+            <div style="margin-top:10px;margin-bottom:10px;margin-left:auto; margin-right:auto">
+                <span class="alert alert-danger">Bạn chưa có sản phẩm nào trong giỏ hàng</span>
             </div>
         }
     </div>
 </div>
+
 @section scripts {
     <script src="~/js/cart.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btn-delete').click(function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '@Url.Action("Delete", "Cart")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.status) {
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            });
+
+            $('#btnDeleteAll').click(function () {
+                $.ajax({
+                    url: '@Url.Action("DeleteAll", "Cart")',
+                    type: 'POST',
+                    success: function (response) {
+                        if (response.status) {
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            });
+
+            $('#btnPayment').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Payment", "Cart")',
+                    type: 'POST',
+                    success: function (response) {
+                        if (response.status) {
+                            window.location.href = response.redirectUrl;
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 }
 
+}

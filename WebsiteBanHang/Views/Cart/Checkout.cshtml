@@ -1,0 +1,14 @@
+﻿@model WebsiteBanHang.ViewModels.CartViewModel
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Checkout</div>
+    <div class="panel-body">
+        <h4>Thông tin đơn hàng</h4>
+        <p>Tổng số sản phẩm: @Model.CartItems.Sum(item => item.Quantity)</p>
+        <p>Tổng tiền: @String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:c}", Model.CartItems.Sum(item => item.Product.Price.GetValueOrDefault(0) * item.Quantity))</p>
+
+        <form asp-action="Payment" method="post">
+            <button type="submit" class="btn btn-success">Thanh toán với VNPAY</button>
+        </form>
+    </div>
+</div>

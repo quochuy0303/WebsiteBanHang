@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Interface;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repository;
+using WebsiteBanHang.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
 AddCookie(options =>
@@ -28,7 +29,7 @@ options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CatologyRepository>();
-
+builder.Services.AddSingleton<IVnPayService, VnPayService>();
 
 
 

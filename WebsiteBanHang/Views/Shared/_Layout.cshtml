@@ -12,6 +12,144 @@
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/vendor/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        /* General styles for the chat container */
+        .chat-container {
+            width: 80%;
+            max-width: 500px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Header styles with shadow and rounded corners */
+        .chat-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Body styles with padding and scroll */
+        .chat-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #fafafa;
+        }
+
+        /* Footer styles with fixed position */
+        .chat-footer {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f2f2f2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styles for the messages */
+        .chat-message {
+            margin-bottom: 10px;
+            border-radius: 5px;
+            padding: 10px;
+            max-width: 90%;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+            .chat-message.user {
+                background-color: #ccf2ff;
+                align-self: flex-end;
+                text-align: right;
+                border-radius: 10px 10px 0 10px;
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+
+            .chat-message.gpt {
+                background-color: #f2f2f2;
+                align-self: flex-start;
+                text-align: left;
+                border-radius: 10px 10px 10px 0;
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+
+            .chat-message.error {
+                color: red;
+            }
+
+        /* Text area styles */
+        .chat-footer textarea {
+            width: calc(100% - 100px);
+            height: 47px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            resize: none;
+            transition: border-color 0.3s ease;
+        }
+
+            .chat-footer textarea:focus {
+                border-color: #4CAF50;
+                outline: none;
+            }
+
+        /* Button styles */
+        .chat-footer button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 25px;
+            margin-left: 10px;
+        }
+
+            .chat-footer button:hover {
+                background-color: #45a049;
+            }
+
+        /* Icon for message notification */
+        .message-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+            .message-icon:hover {
+                background-color: #45a049;
+            }
+
+    </style>
 </head>
 <body>
     <div class="header">
@@ -21,7 +159,7 @@
                            trigger="hover"
                            style="width:100px;height:100px; margin-right:10px;">
                 </lord-icon>
-                <a href="trang-chu"><img src="~/images/banner-1.png" alt="Phone" class="small-banner-image"></a>                                   
+                <a href="trang-chu"><img src="~/images/banner-1.png" alt="Phone" class="small-banner-image"></a>
             </div>
             <div class="container">
                 @await Html.PartialAsync("_MenuPartial")
@@ -41,7 +179,7 @@
                         <img src="~/images/products/3152_chic_cham_dau_tam_cam_petcity.png"
                              class="img-rounded img-adv" alt="Quảng cáo" />
                         <marquee>
-                            Thiết kế mẫu mã đẹp mắt độc đáo với camera sắc nét từng chi tiết 
+                            Thiết kế mẫu mã đẹp mắt độc đáo với camera sắc nét từng chi tiết
                         </marquee>
                     </div>
                 </div>
@@ -76,7 +214,6 @@ HCD@gmail.com">HCD@gmail.com</a>
                 </p>
             </div>
             <div class="col-md-4">
-                
             </div>
         </div>
     </div>
@@ -155,6 +292,120 @@ số điện thoại">
             </div>
         </div>
     </div>
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h4>Chat with GPT-3.5</h4>
+            <span class="minimize-button" id="minimizeChat">-</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <!-- Initial greeting message -->
+            <div class="chat-message gpt">Xin chào, tôi có thể giúp gì cho bạn?</div>
+        </div>
+        <div class="chat-footer">
+            <textarea id="question" placeholder="Enter your request here..."></textarea>
+            <button id="send">Send</button>
+        </div>
+    </div>
+    <div class="message-icon" id="messageIcon">💬</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const apiKey = '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';  // Replace with your API key
+
+        $('#send').click(function () {
+            const question = $('#question').val();
+            if (!question) {
+                alert('Please enter a question.');
+                return;
+            }
+
+            addChatMessage('user', question);  // Add user's question to the chat
+
+            generateCompletion(question);
+        });
+
+        async function generateCompletion(question) {
+            const content = `Question: ${question}`;
+
+            try {
+                const data = {
+                    model: 'gpt-3.5-turbo',
+                    messages: [{
+                        role: "user",
+                        content: content
+                    }],
+                    max_tokens: 400
+                };
+
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + apiKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    console.log('HTTP error', response.status);
+                    const errorDetail = await response.text();
+                    console.log('Error response body:', errorDetail);
+                    addChatMessage('error', errorDetail);  // Show error message in chat
+                } else {
+                    const result = await response.json();
+                    typeWriter('gpt', result.choices[0].message.content);  // Show GPT's response in chat with typewriter effect
+                    console.log(result);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                addChatMessage('error', 'Fetch error: ' + error.message);  // Show fetch error in chat
+            }
+
+            // Clear the input field
+            $('#question').val('');
+        }
+
+        function addChatMessage(sender, message) {
+            const chatBody = $('#chatBody');
+            const messageElement = `<div class="chat-message ${sender}">${message}</div>`;
+            chatBody.append(messageElement);
+            chatBody.scrollTop(chatBody.prop("scrollHeight"));  // Scroll to the bottom
+        }
+
+        function typeWriter(sender, text) {
+            const chatBody = $('#chatBody');
+            const messageElement = `<div class="chat-message ${sender}"></div>`;
+            const messageDiv = $(messageElement);
+            chatBody.append(messageDiv);
+            chatBody.scrollTop(chatBody.prop("scrollHeight"));  // Scroll to the bottom
+
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    messageDiv.append(text.charAt(i));
+                    i++;
+                    setTimeout(type, 30);  // Adjust typing speed here (in milliseconds)
+                    chatBody.scrollTop(chatBody.prop("scrollHeight"));  // Keep scrolling to the bottom
+                }
+            }
+
+            type();
+        }
+
+        // Minimize and maximize chat
+        $('#minimizeChat').click(function () {
+            $('#chatContainer').hide();
+            $('#messageIcon').show();
+        });
+
+        $('#messageIcon').click(function () {
+            $('#chatContainer').show();
+            $('#messageIcon').hide();
+        });
+
+        // Show chat initially
+        $('#chatContainer').show();
+        $('#messageIcon').hide();
+    </script>
     <script src="~/js/site.js"></script>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
